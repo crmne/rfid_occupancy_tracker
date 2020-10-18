@@ -6,7 +6,7 @@ An occupancy tracker for the RC522 and the Raspberry Pi
 ![Demo](https://static.paolino.me/render1603055017831.gif)
 
 ## Features
-* You don't need new RFID cards/keys, as long as they are 13.56 MHz RFID cards.
+* Works with your existing RFID cards/keys, as long as they are 13.56 MHz RFID cards.
 * Check-in/check-out log with timestamps (useful for tracking who was where in Corona times)
 * Plug and play
 * Beautiful command line interface
