@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "==19.10b0"
+isort = "*"
+autoflake = "*"
+pylint = "*"
+pre-commit = "*"
+
+[packages]
+sqlalchemy = "*"
+typer = "*"
+mfrc522 = "*"
+"rpi.gpio" = "*"
+
+[requires]
+python_version = "3"
+
+[scripts]
+beautify = "bash -c \"autoflake -i -r --expand-star-imports --remove-all-unused-imports --remove-duplicate-keys --remove-unused-variables **/*.py; isort **/*.py; black **/*.py\""
+lint = "bash -c \"pylint **/*.py\""
