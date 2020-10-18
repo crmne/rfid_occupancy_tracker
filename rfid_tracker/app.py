@@ -21,10 +21,16 @@ def init_db(db_path: Path):
     return Session()
 
 
+def anonymize(card_id: int):
+    card_id = list(str(card_id))
+    card_id[4:-4] = "x" * (len(card_id) - 8)
+    return "".join(card_id)
+
+
 def scan_card(reader, session):
     typer.secho("💳 Please scan your card...", fg=typer.colors.BLUE)
     card_id, _ = reader.read()
-    typer.secho(f"💳 Card number {card_id} scanned", fg=typer.colors.GREEN)
+    typer.secho(f"💳 Card number {anonymize(card_id)} scanned", fg=typer.colors.GREEN)
     user_in_db = session.query(Member).filter_by(card_id=card_id).first()
     return card_id, user_in_db
 
@@ -82,7 +88,7 @@ def register(
             card_id, user_in_db = scan_card(reader, session)
             if user_in_db:
                 typer.secho(
-                    f"💳 Card {card_id} already registered to\n"
+                    f"💳 Card {anonymize(card_id)} already registered to\n"
                     f"First Name: {user_in_db.first_name}\n"
                     f"Last Name:  {user_in_db.last_name}\n"
                     f"⌚ Registration time: {user_in_db.registration_dt}",
@@ -163,9 +169,12 @@ def tracker(
                         no_spots()
             else:
                 typer.secho(
-                    f"❗ Card {card_id} not found in database!", fg=typer.colors.RED
+                    f"❗ Card {anonymize(card_id)} not found in database!",
+                    fg=typer.colors.RED,
                 )
-                if typer.confirm(f"❓ Want to register {card_id} as a new member?"):
+                if typer.confirm(
+                    f"❓ Want to register {anonymize(card_id)} " "as a new member?"
+                ):
                     register_new_member(session, card_id)
     finally:
         GPIO.cleanup()
