@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -104,6 +105,7 @@ def register(
                 register_new_member(session, card_id)
             if not typer.confirm("❓ Do you want to register another member?"):
                 break
+            time.sleep(1)
     finally:
         GPIO.cleanup()
 
@@ -176,6 +178,7 @@ def tracker(
                     f"❓ Want to register {anonymize(card_id)} " "as a new member?"
                 ):
                     register_new_member(session, card_id)
+            time.sleep(1)
     finally:
         GPIO.cleanup()
 
