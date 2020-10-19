@@ -7,10 +7,13 @@ import sqlalchemy
 import typer
 from mfrc522 import SimpleMFRC522
 from models import Action, Base, Member
+from slack_webhook import Slack
 
 MAX_SPOTS = 19
+WEBHOOK_URL = 'https://hooks.slack.com/services/xxx/yyy'
 
 app = typer.Typer()
+slack = Slack(url=WEBHOOK_URL)
 
 
 def init_db(db_path: Path):
@@ -155,6 +158,7 @@ def tracker(
                     session.add(new_action)
                     session.commit()
                     bye(user_in_db.first_name, user_in_db.last_name)
+                    slack.post(text=f"{user_in_db.first_name} just checked out. {n_occupied_spots+1} spots left.")
                 else:
                     if n_occupied_spots < MAX_SPOTS:
                         user_in_db.room_id = 1
@@ -167,6 +171,7 @@ def tracker(
                         session.add(new_action)
                         session.commit()
                         hello(user_in_db.first_name, user_in_db.last_name)
+                        slack.post(text=f"{user_in_db.first_name} just checked in to Factory. {n_occupied_spots-1} spots left.")
                     else:
                         no_spots()
             else:
