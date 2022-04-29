@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "rfid_occupancy_tracker"
+version = "0.1.0"
+description = "An occupancy tracker for the RC522 and the Raspberry Pi"
+authors = ["Carmine Paolino <carmine@paolino.me>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+sqlalchemy = "*"
+typer = "*"
+mfrc522 = "*"
+"rpi.gpio" = "*"
+slack-webhook = "*"
+
+[tool.poetry.dev-dependencies]
+black = "*"
+isort = "*"
+autoflake = "*"
+pylint = "*"
+pre-commit = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
